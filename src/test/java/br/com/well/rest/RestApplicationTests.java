@@ -11,11 +11,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class RestApplicationTests {
 
-	@Autowired
-	private ClientApiController myController;
+	private final ClientApiController myController;
+
+	private final ClientServiceImpl myService;
 
 	@Autowired
-	private ClientServiceImpl myService;
+	public RestApplicationTests(ClientApiController myController, ClientServiceImpl myService) {
+		this.myController = myController;
+		this.myService = myService;
+	}
 
 	@Test
 	void contextLoads() {

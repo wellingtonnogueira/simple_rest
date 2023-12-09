@@ -1,10 +1,6 @@
 package br.com.well.rest.controller;
-
 import br.com.well.rest.service.model.ClientModel;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.SwaggerDefinition;
-import io.swagger.annotations.Tag;
+import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +9,6 @@ import java.util.List;
 @Api(tags = {"Client"})
 @SwaggerDefinition(tags =  @Tag(name = "Client", description = "Client endpoints"))
 @RequestMapping("clients")
-
 public interface ClientApi {
 
     @ApiOperation(value = "GetClientsList")

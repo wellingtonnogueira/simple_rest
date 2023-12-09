@@ -1,16 +1,18 @@
 package br.com.well.rest.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@ToString
+@EqualsAndHashCode
 public class ClientModel {
     @JsonIgnore
     private String id; // Not exposed as JSon
-    private String fullName;
-    private String description;
+    @JsonProperty("fullName") private String fullName;
+    @JsonProperty("description") private String description;
 }
