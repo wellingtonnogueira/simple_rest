@@ -64,3 +64,6 @@ To identify the WSL IP, use:
 ```shell
 ip addr show eth0
 ```
+
+## REST calls
+It is possible to find the CURLs on [CURLS.md](CURLS.md)
