@@ -3,8 +3,7 @@ This is a small catalog of the verbs this project can call
 
 ## POST
 ```shell
-curl -v -X POST http://172.27.55.252:8080/clients/ -H "Content-Type: application/json" -d '{"ful
-lName":"wellington", "description":"um bom cliente"}'
+curl -v -X POST http://172.27.55.252:8080/clients/ -H "Content-Type: application/json" -d '{"fullName":"wellington", "description":"um bom cliente"}'
 ```
 
 ## DELETE
