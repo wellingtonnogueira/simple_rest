@@ -21,7 +21,7 @@ public interface ClientApi {
 
     @ApiOperation(value = "PostClient")
     @PostMapping("/")
-    ResponseEntity<Object> newClient(ClientModel clientModel);
+    ResponseEntity<Object> newClient(@RequestBody ClientModel clientModel);
 
     @ApiOperation(value = "DeleteClient")
     @DeleteMapping("/{id}")
