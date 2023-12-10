@@ -9,22 +9,7 @@ services:
     environment:
       - KAFKA_CFG_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_CFG_NUM_PARTITIONS=3
-      - ALLOW_PLAINTEXT_LISTENER=yes
-    depends_on:
-      - zookeeper
-
-  kafka2:
-    image: bitnami/kafka:latest
-    restart: on-failure
-    ports:
-      - 9093:9093
-    environment:
-      - KAFKA_CFG_BROKER_ID=1
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://172.27.55.252:9092 # Adicionado o IP da máquina onde o kafka roda. TODO avaliar como tornar essa info variável.
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_CFG_NUM_PARTITIONS=3
       - ALLOW_PLAINTEXT_LISTENER=yes
@@ -42,12 +27,11 @@ services:
     image: provectuslabs/kafka-ui
     depends_on:
       - kafka
-      - kafka2
       - zookeeper
     ports:
       - "8080:8080"
     restart: always
     environment:
       - KAFKA_CLUSTERS_0_NAME=well
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092,kafka2:9093
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
