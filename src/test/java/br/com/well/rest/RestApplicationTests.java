@@ -1,6 +1,6 @@
 package br.com.well.rest;
 
-import br.com.well.rest.controller.ClientApiController;
+import br.com.well.rest.controller.rest.ClientApiController;
 import br.com.well.rest.service.ClientServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

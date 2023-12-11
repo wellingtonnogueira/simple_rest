@@ -1,4 +1,4 @@
-package br.com.well.rest.controller;
+package br.com.well.rest.controller.rest;
 
 import br.com.well.rest.service.ClientService;
 import br.com.well.rest.service.model.ClientModel;

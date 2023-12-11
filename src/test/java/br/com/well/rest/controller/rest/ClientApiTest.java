@@ -1,4 +1,4 @@
-package br.com.well.rest.controller;
+package br.com.well.rest.controller.rest;
 
 import br.com.well.rest.RestApplication;
 import br.com.well.rest.exception.AppCustomRestExceptionHandler;

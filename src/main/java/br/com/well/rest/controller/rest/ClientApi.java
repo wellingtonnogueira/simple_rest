@@ -1,4 +1,4 @@
-package br.com.well.rest.controller;
+package br.com.well.rest.controller.rest;
 import br.com.well.rest.service.model.ClientModel;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public interface ClientApi {
 
     @ApiOperation(value = "PostClient")
     @PostMapping("/")
-    ResponseEntity<Object> newClient(ClientModel clientModel);
+    ResponseEntity<Object> newClient(@RequestBody ClientModel clientModel);
 
     @ApiOperation(value = "DeleteClient")
     @DeleteMapping("/{id}")
