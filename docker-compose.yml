@@ -1,6 +1,19 @@
 version: "3"
 
 services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./01-client_dml.sql:/docker-entrypoint-initdb.d/01-client_dml.sql
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=cl13ntS3cret
+      - POSTGRES_USER=client_user
+      - POSTGRES_DB=client_db
+
+
   kafka:
     image: bitnami/kafka:latest
     restart: on-failure

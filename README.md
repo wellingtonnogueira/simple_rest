@@ -67,3 +67,18 @@ ip addr show eth0
 
 ## REST calls
 It is possible to find the CURLs on [CURLS.md](CURLS.md)
+
+## PostgreSQL
+There will be a container running a Postgres instance.
+If it does not automatically create the table, it is possible to run the following command:
+To get the _CONTAINER_ID_:
+```shell
+docker container ps
+```
+Identify the respective container and copy its ID. Then
+
+```shell
+docker exec -it [CONTAINER_ID] psql -U client_user -d client_db -a -f /docker-entrypoint-initdb.d/01-client_dml.sql
+```
+
+If you have more SQL files, just do the same.
