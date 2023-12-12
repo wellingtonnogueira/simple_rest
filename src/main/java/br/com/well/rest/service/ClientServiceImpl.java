@@ -2,26 +2,30 @@ package br.com.well.rest.service;
 
 import br.com.well.rest.exception.ApplicationException;
 import br.com.well.rest.helpers.JsonHelper;
+import br.com.well.rest.repository.ClientRepository;
+import br.com.well.rest.repository.entity.ClientEntity;
 import br.com.well.rest.service.model.ClientModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
 public class ClientServiceImpl implements ClientService {
 
+    private final ClientRepository repository;
+
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    public ClientServiceImpl(KafkaTemplate<String, String> kafkaTemplate) {
+    public ClientServiceImpl(ClientRepository repository, KafkaTemplate<String, String> kafkaTemplate) {
+        this.repository = repository;
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -53,29 +57,39 @@ public class ClientServiceImpl implements ClientService {
             throw new ApplicationException("Communication failed", e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return id; // TODO implement code
+        return id;
+    }
+
+    @Override
+    @Transactional
+    public boolean save(ClientModel clientModel) {
+        Optional<ClientEntity> found = repository.findById(clientModel.getId());
+        if(found.isEmpty()) {
+            repository.save(ClientModel.toEntity(clientModel));
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<ClientModel> findAll() {
-        //TODO change it to query from database...
+        List<ClientEntity> entityList = repository.findAll();
+        return entityList.stream().map(ClientModel::toModel).toList();
 
-        return Arrays.asList(
-                ClientModel.builder().description("aaa").build(),
-                ClientModel.builder().description("bbb").build()
-        );
     }
 
     @Override
+    @Transactional
     public boolean deleteClientMessage(String clientModelId) {
-        return true; // TODO implement code
+        Optional<ClientEntity> found = repository.findById(clientModelId);
+        found.ifPresent(repository::delete);
+        return true;
     }
 
     @Override
     public ClientModel find(String id) {
-        //TODO change it to query from database...
-
-        return ClientModel.builder().description("aaa").build();
+        Optional<ClientEntity> found = repository.findById(id);
+        return found.map(ClientModel::toModel).orElse(null);
     }
 
 }

@@ -15,6 +15,18 @@ Docker compose file: _docker-compose.yml_ containing the information below:
 version: "3"
 
 services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./01-client_dml.sql:/docker-entrypoint-initdb.d/01-client_dml.sql
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=cl13ntS3cret
+      - POSTGRES_USER=client_user
+      - POSTGRES_DB=client_db
+
   kafka:
     image: bitnami/kafka:latest
     restart: on-failure
@@ -82,3 +94,16 @@ docker exec -it [CONTAINER_ID] psql -U client_user -d client_db -a -f /docker-en
 ```
 
 If you have more SQL files, just do the same.
+
+If there's any problems connecting to the database or even the container is not running, please reach out the logs by using the following command. Maybe it will give you some idea of what has happened:
+```shell
+docker service logs kafka-simple-rest_postgres
+```
+
+
+
+## References
+[spring kafka publish messages to topic consume messages from topic](https://medium.com/enterprise-java/spring-kafka-publish-messages-to-topic-consume-messages-from-topic-2905873dd107)
+[topico sugestao docker compose kafka zookeeper e kakfa ui](https://cursos.alura.com.br/forum/topico-sugestao-docker-compose-kafka-zookeeper-e-kakfa-ui-279740)
+[postgresql docker compose criando rapidamente ambientes e populando bases para testes](https://renatogroffe.medium.com/postgresql-docker-compose-criando-rapidamente-ambientes-e-populando-bases-para-testes-6c4b9a4de313)
+[docker how to install postgresql using docker compose](https://medium.com/@agusmahari/docker-how-to-install-postgresql-using-docker-compose-d646c793f216)

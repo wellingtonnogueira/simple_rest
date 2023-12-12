@@ -7,6 +7,8 @@ import java.util.List;
 public interface ClientService {
     String postClientMessage(ClientModel clientModel);
 
+    boolean save(ClientModel clientModel);
+
     List<ClientModel> findAll();
 
     boolean deleteClientMessage(String clientModelId);

@@ -13,7 +13,6 @@ services:
       - POSTGRES_USER=client_user
       - POSTGRES_DB=client_db
 
-
   kafka:
     image: bitnami/kafka:latest
     restart: on-failure
