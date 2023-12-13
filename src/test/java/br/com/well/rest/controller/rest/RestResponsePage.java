@@ -8,13 +8,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
-// Sollution found on https://stackoverflow.com/questions/52490399/spring-boot-page-deserialization-pageimpl-no-constructor
+// Solution found on https://stackoverflow.com/questions/52490399/spring-boot-page-deserialization-pageimpl-no-constructor
 @JsonIgnoreProperties(value = {"empty"})
 class RestResponsePage<T> extends PageImpl<T> {
 
+    @Serial
     private static final long serialVersionUID = 3248189030448292002L;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

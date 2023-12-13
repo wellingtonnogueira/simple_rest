@@ -37,6 +37,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Page<ClientModel> findAllPaged(int page, int pageSize) {
+        //TODO this is not bringing the existing Clients on DB. Review it!!!
         Page<ClientEntity> clientEntityPaged = repository.findAll(PageRequest.of(page, pageSize));
         return clientEntityPaged.map(ClientModel::toModel);
     }

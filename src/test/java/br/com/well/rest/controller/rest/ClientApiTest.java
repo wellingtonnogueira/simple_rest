@@ -54,7 +54,8 @@ class ClientApiTest {
     @BeforeEach
     public void setUp() {
 
-        try(AutoCloseable openedMock = MockitoAnnotations.openMocks(this)) {
+        // changed variable name to "ignored" per Sonar suggestion (to skip being warned without needs.
+        try(AutoCloseable ignored = MockitoAnnotations.openMocks(this)) {
             mockMvc = MockMvcBuilders
                     .standaloneSetup(controller)
                     .setControllerAdvice(new AppCustomRestExceptionHandler())
