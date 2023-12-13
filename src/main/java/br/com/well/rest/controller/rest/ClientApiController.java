@@ -1,5 +1,6 @@
 package br.com.well.rest.controller.rest;
 
+import br.com.well.rest.service.ClientMessageService;
 import br.com.well.rest.service.ClientService;
 import br.com.well.rest.service.model.ClientModel;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,12 @@ import java.util.List;
 public class ClientApiController implements ClientApi {
 
     private final ClientService service;
+    private final ClientMessageService messageService;
 
     @Autowired
-    public ClientApiController(ClientService clientService) {
+    public ClientApiController(ClientService clientService, ClientMessageService messageService) {
         this.service = clientService;
+        this.messageService = messageService;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class ClientApiController implements ClientApi {
     @Override
     public ResponseEntity<Object> newClient(ClientModel clientModel) {
 
-        String id = service.postClientMessage(clientModel);
+        String id = messageService.postClientMessage(clientModel);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

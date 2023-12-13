@@ -1,5 +1,6 @@
 package br.com.well.rest.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -16,11 +17,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @ControllerAdvice
 public class AppCustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
         List<String> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
@@ -35,6 +39,7 @@ public class AppCustomRestExceptionHandler extends ResponseEntityExceptionHandle
 
     @ExceptionHandler(value = { ApplicationException.class })
     public ResponseEntity<Object> handleAllApplication(ApplicationException ex, WebRequest request) {
+        log.error("ApplicationException", ex);
         ApiError apiError = new ApiError(ex.getDefaultHttpStatus(), ex.getLocalizedMessage(), Collections.emptyList());
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }

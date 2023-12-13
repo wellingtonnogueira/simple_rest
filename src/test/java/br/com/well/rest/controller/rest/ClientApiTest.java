@@ -3,6 +3,7 @@ package br.com.well.rest.controller.rest;
 import br.com.well.rest.RestApplication;
 import br.com.well.rest.exception.AppCustomRestExceptionHandler;
 import br.com.well.rest.helpers.JsonHelper;
+import br.com.well.rest.service.ClientMessageService;
 import br.com.well.rest.service.ClientService;
 import br.com.well.rest.service.model.ClientModel;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,9 @@ class ClientApiTest {
 
     @Mock
     private ClientService service;
+
+    @Mock
+    private ClientMessageService messageService;
 
     @BeforeEach
     public void setUp() {
@@ -113,7 +117,7 @@ class ClientApiTest {
 
         ClientModel defaultClient = ClientModel.builder().fullName("Full Name IV").description("Client IV").build();
 
-        when(service.postClientMessage(any(ClientModel.class))).thenReturn(id);
+        when(messageService.postClientMessage(any(ClientModel.class))).thenReturn(id);
 
         JsonHelper<ClientModel> jsonHelper = new JsonHelper<>(ClientModel.class);
 
@@ -132,7 +136,7 @@ class ClientApiTest {
         Assertions.assertNotNull(location);
         Assertions.assertTrue(location.contains(id));
 
-        verify(service, times(1)).postClientMessage(any(ClientModel.class));
+        verify(messageService, times(1)).postClientMessage(any(ClientModel.class));
 
     }
 

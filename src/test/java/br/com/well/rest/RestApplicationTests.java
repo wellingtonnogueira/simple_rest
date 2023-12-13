@@ -3,6 +3,7 @@ package br.com.well.rest;
 import br.com.well.rest.controller.message.MessageConsumerProcessor;
 import br.com.well.rest.controller.rest.ClientApiController;
 import br.com.well.rest.repository.ClientRepository;
+import br.com.well.rest.service.ClientMessageServiceImpl;
 import br.com.well.rest.service.ClientServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,20 @@ class RestApplicationTests {
 
 	private final ClientApiController clientApiController;
 	private final ClientServiceImpl clientService;
+	private final ClientMessageServiceImpl clientMessageService;
 	private final MessageConsumerProcessor messageConsumerProcessor;
 	private final ClientRepository clientRepository;
 
 	@Autowired
-	public RestApplicationTests(ClientApiController clientApiController, ClientServiceImpl clientService, MessageConsumerProcessor messageConsumerProcessor, ClientRepository clientRepository) {
+	public RestApplicationTests(
+			ClientApiController clientApiController,
+			ClientServiceImpl clientService,
+			ClientMessageServiceImpl clientMessageService,
+			MessageConsumerProcessor messageConsumerProcessor,
+			ClientRepository clientRepository) {
 		this.clientApiController = clientApiController;
 		this.clientService = clientService;
+		this.clientMessageService = clientMessageService;
 		this.messageConsumerProcessor = messageConsumerProcessor;
 		this.clientRepository = clientRepository;
 	}
@@ -30,6 +38,7 @@ class RestApplicationTests {
 	void contextLoads() {
 		assertThat(clientRepository).isNotNull();
 		assertThat(clientService).isNotNull();
+		assertThat(clientMessageService).isNotNull();
 		assertThat(messageConsumerProcessor).isNotNull();
 		assertThat(clientApiController).isNotNull();
 

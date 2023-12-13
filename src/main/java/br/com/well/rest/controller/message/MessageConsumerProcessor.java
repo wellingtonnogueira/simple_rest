@@ -2,6 +2,7 @@ package br.com.well.rest.controller.message;
 
 import br.com.well.rest.helpers.JsonHelper;
 import br.com.well.rest.service.ClientService;
+import br.com.well.rest.service.model.ClientMessageModel;
 import br.com.well.rest.service.model.ClientModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +29,11 @@ public class MessageConsumerProcessor {
     public void listen(List<String> reviews, Acknowledgment ack) {
         log.info("Received review size {}", reviews.size());
         try {
-            List<ClientModel> clientList = reviews.stream().map(this::deserialize).toList();
-            log.info("Converted into track domain objects , total size {}", clientList.size());
+            List<ClientMessageModel> clientMessageList = reviews.stream().map(this::deserialize).toList();
 
+            log.info("Converted into track domain objects , total size {} - {}", clientMessageList.size(), clientMessageList);
+
+            List<ClientModel> clientList = clientMessageList.stream().map(ClientMessageModel::getClient).toList();
             clientList.forEach(clientService::save);
 
         } catch (RuntimeException re) {
@@ -42,10 +45,10 @@ public class MessageConsumerProcessor {
         }
     }
 
-    private ClientModel deserialize(String review) {
+    private ClientMessageModel deserialize(String message) {
         try {
-            JsonHelper<ClientModel> jsonHelper = new JsonHelper<>(ClientModel.class);
-            return jsonHelper.stringToObject(review);
+            JsonHelper<ClientMessageModel> jsonHelper = new JsonHelper<>(ClientMessageModel.class);
+            return jsonHelper.stringToObject(message);
         } catch (JsonProcessingException e) {
             log.error("Error reading the message", e);
         }
