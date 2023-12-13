@@ -8,9 +8,10 @@ import br.com.well.rest.service.model.ClientModel;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -35,10 +36,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientModel> findAll() {
-        List<ClientEntity> entityList = repository.findAll();
-        return entityList.stream().map(ClientModel::toModel).toList();
-
+    public Page<ClientModel> findAllPaged(int page, int pageSize) {
+        Page<ClientEntity> clientEntityPaged = repository.findAll(PageRequest.of(page, pageSize));
+        return clientEntityPaged.map(ClientModel::toModel);
     }
 
     @Override

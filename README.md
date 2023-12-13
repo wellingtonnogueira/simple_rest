@@ -107,3 +107,4 @@ docker service logs kafka-simple-rest_postgres
 [topico sugestao docker compose kafka zookeeper e kakfa ui](https://cursos.alura.com.br/forum/topico-sugestao-docker-compose-kafka-zookeeper-e-kakfa-ui-279740)
 [postgresql docker compose criando rapidamente ambientes e populando bases para testes](https://renatogroffe.medium.com/postgresql-docker-compose-criando-rapidamente-ambientes-e-populando-bases-para-testes-6c4b9a4de313)
 [docker how to install postgresql using docker compose](https://medium.com/@agusmahari/docker-how-to-install-postgresql-using-docker-compose-d646c793f216)
+[spring boot page deserialization pageimpl no constructor](https://stackoverflow.com/questions/52490399/spring-boot-page-deserialization-pageimpl-no-constructor)

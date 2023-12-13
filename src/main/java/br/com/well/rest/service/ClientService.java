@@ -1,13 +1,12 @@
 package br.com.well.rest.service;
 
 import br.com.well.rest.service.model.ClientModel;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface ClientService {
     void save(ClientModel clientModel);
 
-    List<ClientModel> findAll();
+    Page<ClientModel> findAllPaged(int page, int pageSize);
 
     boolean deleteClientMessage(String clientModelId);
 

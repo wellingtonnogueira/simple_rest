@@ -5,13 +5,13 @@ import br.com.well.rest.service.ClientService;
 import br.com.well.rest.service.model.ClientModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @Validated
@@ -28,11 +28,9 @@ public class ClientApiController implements ClientApi {
     }
 
     @Override
-    public ResponseEntity<List<ClientModel>> getClients() {
-        // TODO add pagination
-
-        return ResponseEntity.ok().body(service.findAll());
-
+    public ResponseEntity<Page<ClientModel>> getClients(int page, int pageSize) {
+        Page<ClientModel> clientModelPage = service.findAllPaged(page, pageSize);
+        return ResponseEntity.ok().body(clientModelPage);
     }
 
     @Override

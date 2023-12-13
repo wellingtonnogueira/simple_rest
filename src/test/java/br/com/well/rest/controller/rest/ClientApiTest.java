@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -71,21 +72,26 @@ class ClientApiTest {
                 ClientModel.builder().fullName("Full Name I").description("Client I").build(),
                 ClientModel.builder().fullName("Full Name II").description("Client II").build()
         );
-        when(service.findAll()).thenReturn(defaultList);
 
-        MvcResult mvcResult = mockMvc.perform(get(URL + "/clients/"))
+        int pageNumber = 1;
+        int pageSize = 5;
+        int totalItems = 2;
+        RestResponsePage<ClientModel> modelPage = new RestResponsePage<>(defaultList, PageRequest.of(pageNumber, pageSize), totalItems);
+
+        when(service.findAllPaged(anyInt(), anyInt())).thenReturn(modelPage);
+
+        MvcResult mvcResult = mockMvc.perform(get(URL + "/clients/")
+                        .header("page","1")
+                        .header("pageSize", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
 
-        JsonHelper<ClientModel> jsonHelper = new JsonHelper<>(ClientModel.class);
-        List<ClientModel> clientModelList = jsonHelper.stringToList(content);
+        Assertions.assertEquals(defaultList.size(),
+                new JsonHelper<>(RestResponsePage.class).stringToObject(content).stream().toList().size());
 
-        Assertions.assertEquals(defaultList.size(), clientModelList.size());
-        Assertions.assertIterableEquals(defaultList, clientModelList);
-
-        verify(service, times(1)).findAll();
+        verify(service, times(1)).findAllPaged(anyInt(), anyInt());
 
     }
 
